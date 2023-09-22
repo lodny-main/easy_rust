@@ -1,10 +1,9 @@
 fn main() {
-    // trait : From, Into
-    let name = String::from("Juice");
-    let city: String = "Seoul".into();
+    // tuple, destructuring
+    let str_tuple = ("one", "two", "three");
+    let (a, b, _) = str_tuple;
 
-    println!("name: {name}");
-    println!("city: {city}");
+    println!("{a}, {b}");
 }
 
 
