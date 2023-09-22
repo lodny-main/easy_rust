@@ -1,25 +1,19 @@
-use std::fmt::{Display, Formatter};
+use std::fmt::Display;
 
-struct Book;
-
-impl Display for Book {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        println!("()");
-        Ok(())
-    }
-}
-
-fn give_thing<T: Display>(input: T) -> T {
-    println!("{}", input);
-    input
+fn compare_and_display<T, U>(statement: T, num_1: U, num_2: U)
+    where
+        T: Display,
+        U: Display + PartialOrd
+{
+    println!("{}! Is {} greater than {}? {}",
+             statement,
+             num_1,
+             num_2,
+             num_1 > num_2
+    );
 }
 
 fn main() {
-    let x = give_thing(String::from("Take this thing"));
-    let y = give_thing(9);
-    let z = give_thing(Book);
-
-    println!("{x}");
-    println!("{y}");
-    println!("{z}");
+    compare_and_display("Listen up!", 9, 8);
 }
+
