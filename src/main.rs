@@ -1,4 +1,7 @@
-fn give_thing<T>(input: T) -> T {
+use std::fmt::Display;
+
+fn give_thing<T: Display>(input: T) -> T {
+    println!("{}", input);
     input
 }
 
