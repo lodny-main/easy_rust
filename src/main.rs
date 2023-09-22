@@ -1,9 +1,20 @@
 fn main() {
-    // tuple, destructuring
-    let str_tuple = ("one", "two", "three");
-    let (a, b, _) = str_tuple;
+    let mut input = 5;
+    match_number(input);
 
-    println!("{a}, {b}");
+    input = 15;
+    match_number(input);
+
+    input = 25;
+    match_number(input);
+}
+
+fn match_number(input: i32) {
+    match input {
+        0..=10 => { println!("true {}", input); }
+        number @ 11..=20 => println!("true {}, {}", input, number),
+        _ => println!("false")
+    }
 }
 
 
