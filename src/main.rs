@@ -1,20 +1,28 @@
-fn main() {
-    let mut input = 5;
-    match_number(input);
+use std::mem::size_of_val;
 
-    input = 15;
-    match_number(input);
+struct SomeStruct;
+#[derive(Debug)]
+struct Colour(u8, u8, u8);
 
-    input = 25;
-    match_number(input);
+#[derive(Debug)]
+struct Country {
+    population: u32,
+    capital: String,
 }
 
-fn match_number(input: i32) {
-    match input {
-        0..=10 => { println!("true {}", input); }
-        number @ 11..=20 => println!("true {}, {}", input, number),
-        _ => println!("false")
-    }
+fn main() {
+    let x = SomeStruct;
+    println!("The size is {}", size_of_val(&x));
+
+    let c = Colour(20, 50, 100);
+    println!("The green value is {}", c.1);
+    println!("The green value is {:?}", c);
+
+    let country = Country {
+        population: 5000_0000,
+        capital: "Seoul".to_string(),
+    };
+    println!("country: {:#?}", country);
 }
 
 
