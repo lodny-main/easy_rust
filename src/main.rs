@@ -1,26 +1,11 @@
-struct Item {
-    num: i32
-}
-
-impl Item {
-    fn compare(&self, other: i32) {
-        println!("Are they equal? {}", self.num == other);
-    }
+fn give_thing<T>(input: T) -> T {
+    input
 }
 
 fn main() {
-    let num = 10;
-    let ref_num = &num;
+    let x = give_thing(String::from("Take this thing"));
+    let y = give_thing(9);
 
-    println!("Are they the same? {}", num == *ref_num);
-
-    // because dot operator ->> auto deref
-    let item = Item {
-        num: 10
-    };
-    let ref_item = &item;
-    let other_ref_item = &ref_item;
-    item.compare(10);
-    ref_item.compare(10);
-    other_ref_item.compare(10);
+    println!("{x}");
+    println!("{y}");
 }
