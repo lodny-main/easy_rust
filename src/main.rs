@@ -1,14 +1,44 @@
-// chaining methods and functional style
+enum LibraryType {
+    City,
+    Country,
+}
+
+struct Library {
+    library_type: LibraryType,
+    books: Vec<String>,
+}
+
+impl Library {
+    fn new() -> Self {
+        Self {
+            library_type: LibraryType::City,
+            books: Vec::new(),
+        }
+    }
+
+    fn add_book(&mut self, book: &str) {
+        self.books.push(book.to_string());
+    }
+}
+
+impl Iterator for Library {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.books.pop()
+    }
+}
 
 fn main() {
-    let my_vec = (1..=10).collect::<Vec<_>>();
-    println!("my_vec: {:?}", my_vec);
+    let mut my_library = Library::new();
+    my_library.add_book("The Doom");
+    my_library.add_book("Demian");
+    my_library.add_book("구운몽");
+    my_library.add_book("데이터베이스");
 
-    let new_vec = my_vec
-        .into_iter()
-        .skip(3)
-        .take(5)
-        .collect::<Vec<i32>>();
-    println!("new_vec: {:?}", new_vec);
-    // println!("my_vec: {:?}", my_vec);        // after move
+    println!("{:?}", my_library.books);
+
+    for book in my_library {
+        println!("{}", book);
+    }
 }
