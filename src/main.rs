@@ -1,21 +1,19 @@
-use std::collections::BTreeMap;
-
-struct City {
-    name: String,
-    population: BTreeMap<u32, u32>   // year + population
-}
+use std::collections::HashMap;
 
 fn main() {
-    let mut tallinn = City {
-        name: "Tallinn".to_string(),
-        population: BTreeMap::new(),
-    };
+    let canadian_cities = vec!["Calgary", "Vancouver", "Gimli"];
+    let german_cities = vec!["Karlsruhe", "Bad Doberan", "Bielefeld"];
 
-    tallinn.population.insert(1372, 3250);
-    tallinn.population.insert(1851, 2_4000);
-    tallinn.population.insert(2020, 43_7619);
+    let mut city_hashmap = HashMap::new();
 
-    for (year, population) in tallinn.population {
-        println!("In the year {} the population was {}", year, population);
+    for city in canadian_cities {
+        city_hashmap.insert(city, "Canada");
     }
+    for city in german_cities {
+        city_hashmap.insert(city, "German");
+    }
+
+    println!("{:?}", city_hashmap["Bielefeld"]);
+    println!("{:?}", city_hashmap.get("Bielefeld"));
+    println!("{:?}", city_hashmap["Bielefeld1"]);
 }
