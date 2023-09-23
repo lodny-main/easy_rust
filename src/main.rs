@@ -1,34 +1,12 @@
-// blanket trait implementations
-// implement trait for all types that you want to have it
+use std::fmt::Display;
 
-use std::fmt::{Debug, Display};
-
-trait Prints {
-    fn debug_print(&self) where Self: Debug {
-        println!("Debug ->> I am: {:?}", self);
-    }
-
-    fn display_print(&self) where Self: Display {
-        println!("Display ->> I am: {}", self);
-    }
+fn print_it<T>(input: T)
+where T: Display + AsRef<str> {
+    println!("{input}");
 }
-
-#[derive(Debug)]
-struct Person;
-#[derive(Debug)]
-struct Building;
-
-impl<T> Prints for T {
-}
-
 
 fn main() {
-    let person = Person;
-    let building = Building;
-    let my_string = String::from("Hello");
-
-    person.debug_print();
-    building.debug_print();
-    my_string.debug_print();
-    my_string.display_print();
+    print_it("Please print me");
+    print_it("Please print me".to_string());
+    // print_it(5);
 }
