@@ -1,23 +1,49 @@
-// struct User  : thing
-// enum Months  : choices
-// trait        : verbs or adjectives
-
-use std::fmt::Display;
-
-fn print_vec<T: Display>(input: &Vec<T>) {
-    for item in input {
-        print!("{item} ");
-    }
-    println!();
+// City -----------------------------------------------
+#[derive(Debug)]
+struct City {
+    name: String,
+    population: u32,
 }
 
+impl City {
+    fn new(name: &str, population: u32) -> Self {
+        Self {
+            name: name.to_string(),
+            population
+        }
+    }
+}
+
+// Country -----------------------------------------------
+
+#[derive(Debug)]
+struct Country {
+    cities: Vec<City>,
+}
+
+impl Country {
+    fn print_cities(&self) {
+        // for city in self.cities.iter() {
+        for city in &self.cities {
+            println!("{:?} has a population of {:?}", city.name, city.population);
+        }
+    }
+}
+
+impl From<Vec<City>> for Country {
+    fn from(cities: Vec<City>) -> Self {
+        Self { cities }
+    }
+}
+
+
 fn main() {
-    let array_vec = Vec::from([8, 9, 10]);
-    print_vec(&array_vec);
+    let helsinki = City::new("Helsinki", 63_1695);
+    let turku = City::new("Turku", 18_6756);
 
-    let str_vec = Vec::from("What kind of vec is this?");
-    print_vec(&str_vec);
+    let cities = vec![helsinki, turku];
+    let country= Country::from(cities);
+    // let country: Country = cities.into();        // the same
 
-    let string_vec = Vec::from("What kind of vec is a String vec?".to_string());
-    print_vec(&string_vec);
+    country.print_cities();
 }
