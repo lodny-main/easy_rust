@@ -1,16 +1,14 @@
-use std::collections::BinaryHeap;
+use std::num::ParseIntError;
+
+fn parse_str(input: &str) -> Result<(), ParseIntError> {
+    let parsed_number = input.parse::<i32>()?;  // chaining 가능
+    println!("It worked! {:?}", parsed_number);
+
+    Ok(())
+}
 
 fn main() {
-    let many_numbers = vec![0, 5, 10, 15, 20, 25, 30];
-
-    let mut my_heap = BinaryHeap::new();
-
-    for number in many_numbers {
-        my_heap.push(number);
-    }
-
-    // .peek()
-    while let Some(number) = my_heap.pop() {
-        println!("Popped off {}. Remaining numbers are: {:?}", number, my_heap);
+    for item in vec!["Seven", "8", "9.0", "nice", "6060"] {
+        parse_str(item);
     }
 }
