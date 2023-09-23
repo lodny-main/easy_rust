@@ -1,10 +1,13 @@
-fn main() {
-    let vec1 = vec![2, 4, 6];
+use std::collections::HashMap;
 
-    vec1
+fn main() {
+    let some_numbers = vec![0, 1, 2, 3, 4, 5];
+    let some_words = vec!["zero", "one", "two", "three", "four", "five"];
+
+    let map = some_numbers
         .iter()
-        .enumerate()    // (0, item1), (1, item2) tuple
-        .for_each(|(index, number)| {
-            println!("the number at index {index} is {number}");
-        });
+        .zip(some_words)
+        .collect::<HashMap<_, _>>();
+
+    println!("HashMap: {:?}", map);
 }
