@@ -1,19 +1,19 @@
 use std::collections::HashMap;
 
 fn main() {
-    let canadian_cities = vec!["Calgary", "Vancouver", "Gimli"];
-    let german_cities = vec!["Karlsruhe", "Bad Doberan", "Bielefeld"];
+    let mut book_hashmap = HashMap::new();
 
-    let mut city_hashmap = HashMap::new();
+    book_hashmap.insert(1, "L'Allemagne Moderne");
 
-    for city in canadian_cities {
-        city_hashmap.insert(city, "Canada");
-    }
-    for city in german_cities {
-        city_hashmap.insert(city, "German");
+    if book_hashmap.get(&1).is_none() {
+        book_hashmap.insert(1, "Le Petit Prince");
+    } else {
+        println!("Already got a book");
     }
 
-    println!("{:?}", city_hashmap["Bielefeld"]);
-    println!("{:?}", city_hashmap.get("Bielefeld"));
-    println!("{:?}", city_hashmap["Bielefeld1"]);
+    if let Some(book_name) = book_hashmap.get(&1) {
+        println!("Already got a book: {}", book_name);
+    } else {
+        book_hashmap.insert(1, "Le Petit Prince");
+    }
 }
