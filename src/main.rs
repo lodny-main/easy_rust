@@ -1,13 +1,9 @@
-use std::collections::HashMap;
-
 fn main() {
-    let some_numbers = vec![0, 1, 2, 3, 4, 5];
-    let some_words = vec!["zero", "one", "two", "three", "four", "five"];
+    let big_string = "Hello there, I am a &str";
 
-    let map = some_numbers
-        .iter()
-        .zip(some_words)
-        .collect::<HashMap<_, _>>();
-
-    println!("HashMap: {:?}", map);
+    big_string
+        .char_indices()     // chars().enumerate()
+        .for_each(|(index, charrr)| {
+            println!("At index {index} is the char {charrr}");
+        });
 }
