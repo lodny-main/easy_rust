@@ -1,19 +1,15 @@
-// take_while()
-// cloned()
-// by_ref()
-// skip_while()
-// map_while()
-// chunks()
-// windows()
+// match_indices()      : indices = indexes
+// peekable()
+// peek()
+// next()
 
 fn main() {
-    let num_vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    let rules = "Rule number 1: No fighting.
+Rule number 2: Go to bed at 8 pm.
+Rule number 3: Wake up at 6 am.";
 
-    for chunk in num_vec.chunks(3) {
-        println!("{chunk:?}");
-    }
-
-    for window in num_vec.windows(3) {
-        println!("{window:?}");
-    }
+    let rule_locations = rules
+        .match_indices("Rule")
+        .collect::<Vec<(_,_)>>();
+    println!("Rule locations: {rule_locations:?}");
 }
