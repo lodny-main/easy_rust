@@ -1,16 +1,15 @@
 fn main() {
-    let my_vec = vec![8, 9, 10];
-    // let my_vec = vec![];
+    let vec1 = vec![2, 4, 6];
 
-    let fourth = my_vec
-        .get(3)
-        .unwrap_or_else(|| {
-            if my_vec.get(0).is_some() {
-                &my_vec[0]
-            } else {
-                &0
-            }
-        });
+    let map = vec1
+        .iter()
+        .map(|num| num * 2)
+        .map(|num| num * 3)
+        .map(|num| num * 4);
+    println!("{:?}", map);
 
-    println!("{fourth}");
+    let vec2 = map
+        .collect::<Vec<_>>();
+
+    println!("{:?}", vec2);
 }
