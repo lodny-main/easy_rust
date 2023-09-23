@@ -1,14 +1,12 @@
-use std::num::ParseIntError;
+use std::fmt::Display;
 
-fn parse_str(input: &str) -> Result<(), ParseIntError> {
-    let parsed_number = input.parse::<i32>()?;  // chaining 가능
-    println!("It worked! {:?}", parsed_number);
-
-    Ok(())
+fn print_it<T>(input: T)
+where T: Display + AsRef<str> {
+    println!("{input}");
 }
 
 fn main() {
-    for item in vec!["Seven", "8", "9.0", "nice", "6060"] {
-        parse_str(item);
-    }
+    print_it("Please print me");
+    print_it("Please print me".to_string());
+    // print_it(5);
 }
