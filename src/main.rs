@@ -1,14 +1,23 @@
-use std::num::ParseIntError;
+// struct User  : thing
+// enum Months  : choices
+// trait        : verbs or adjectives
 
-fn parse_str(input: &str) -> Result<(), ParseIntError> {
-    let parsed_number = input.parse::<i32>()?;  // chaining 가능
-    println!("It worked! {:?}", parsed_number);
+use std::fmt::Display;
 
-    Ok(())
+fn print_vec<T: Display>(input: &Vec<T>) {
+    for item in input {
+        print!("{item} ");
+    }
+    println!();
 }
 
 fn main() {
-    for item in vec!["Seven", "8", "9.0", "nice", "6060"] {
-        parse_str(item);
-    }
+    let array_vec = Vec::from([8, 9, 10]);
+    print_vec(&array_vec);
+
+    let str_vec = Vec::from("What kind of vec is this?");
+    print_vec(&str_vec);
+
+    let string_vec = Vec::from("What kind of vec is a String vec?".to_string());
+    print_vec(&string_vec);
 }
