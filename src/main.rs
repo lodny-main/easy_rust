@@ -1,26 +1,44 @@
-// Iterator : a collection of things that you can call .next() on
-// .iter() : iterator of references &T
-// .iter_mut() : iterator of mutable references &mut T
-// .into_iter() : consuming iterator
+enum LibraryType {
+    City,
+    Country,
+}
+
+struct Library {
+    library_type: LibraryType,
+    books: Vec<String>,
+}
+
+impl Library {
+    fn new() -> Self {
+        Self {
+            library_type: LibraryType::City,
+            books: Vec::new(),
+        }
+    }
+
+    fn add_book(&mut self, book: &str) {
+        self.books.push(book.to_string());
+    }
+}
+
+impl Iterator for Library {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.books.pop()
+    }
+}
 
 fn main() {
-    let vec1 = vec![1, 2, 3];
-    let vec1_a = vec1
-        .iter()
-        .map(|x| x + 1)
-        .collect::<Vec<i32>>();
-    let vec1_b: Vec<i32> = vec1
-        .into_iter()
-        .map(|x| x * 10)
-        .collect();
+    let mut my_library = Library::new();
+    my_library.add_book("The Doom");
+    my_library.add_book("Demian");
+    my_library.add_book("구운몽");
+    my_library.add_book("데이터베이스");
 
-    let mut vec2 = vec![10, 20, 30];
-    vec2
-        .iter_mut()
-        .for_each(|num| *num += 100);
+    println!("{:?}", my_library.books);
 
-    println!("vec1_a: {:?}", vec1_a);
-    println!("vec1_b: {:?}", vec1_b);
-    println!("vec2: {:?}", vec2);
-    // println!("vec1: {:?}", vec1);    // error happened : after moved
+    for book in my_library {
+        println!("{}", book);
+    }
 }
