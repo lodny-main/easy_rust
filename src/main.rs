@@ -1,49 +1,34 @@
-// City -----------------------------------------------
-#[derive(Debug)]
-struct City {
-    name: String,
-    population: u32,
-}
+// blanket trait implementations
+// implement trait for all types that you want to have it
 
-impl City {
-    fn new(name: &str, population: u32) -> Self {
-        Self {
-            name: name.to_string(),
-            population
-        }
+use std::fmt::{Debug, Display};
+
+trait Prints {
+    fn debug_print(&self) where Self: Debug {
+        println!("Debug ->> I am: {:?}", self);
+    }
+
+    fn display_print(&self) where Self: Display {
+        println!("Display ->> I am: {}", self);
     }
 }
-
-// Country -----------------------------------------------
 
 #[derive(Debug)]
-struct Country {
-    cities: Vec<City>,
-}
+struct Person;
+#[derive(Debug)]
+struct Building;
 
-impl Country {
-    fn print_cities(&self) {
-        // for city in self.cities.iter() {
-        for city in &self.cities {
-            println!("{:?} has a population of {:?}", city.name, city.population);
-        }
-    }
-}
-
-impl From<Vec<City>> for Country {
-    fn from(cities: Vec<City>) -> Self {
-        Self { cities }
-    }
+impl<T> Prints for T {
 }
 
 
 fn main() {
-    let helsinki = City::new("Helsinki", 63_1695);
-    let turku = City::new("Turku", 18_6756);
+    let person = Person;
+    let building = Building;
+    let my_string = String::from("Hello");
 
-    let cities = vec![helsinki, turku];
-    let country= Country::from(cities);
-    // let country: Country = cities.into();        // the same
-
-    country.print_cities();
+    person.debug_print();
+    building.debug_print();
+    my_string.debug_print();
+    my_string.display_print();
 }
