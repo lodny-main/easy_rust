@@ -1,14 +1,23 @@
-fn take_fifth(value: Vec<i32>) -> Option<i32> {
-    if value.len() < 5 {
-        None
+// Option - Maybe there, maybe not
+// .is_some()
+// .is_none()
+
+// Result - May not work
+// .is_ok()
+// .is_err()
+
+fn check_error(input: i32) -> Result<(), ()> {
+    if input % 2 == 0 {
+        Ok(())
     } else {
-        Some(value[4])
+        Err(())
     }
 }
 
 fn main() {
-    let vec = vec![1, 2];
-    let index = take_fifth(vec);
-
-    index.expect("Needed at least five items");
+    if check_error(5).is_ok() {
+        println!("It's okay, guys!");
+    } else {
+        println!("It's an error, guys!");
+    }
 }
