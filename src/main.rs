@@ -1,14 +1,14 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 struct City {
     name: String,
-    population: HashMap<u32, u32>   // year + population
+    population: BTreeMap<u32, u32>   // year + population
 }
 
 fn main() {
     let mut tallinn = City {
         name: "Tallinn".to_string(),
-        population: HashMap::new(),
+        population: BTreeMap::new(),
     };
 
     tallinn.population.insert(1372, 3250);
