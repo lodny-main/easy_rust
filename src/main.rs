@@ -1,33 +1,17 @@
-// and_then()   :: flat_map()
-
-use std::arch::x86_64::__cpuid;
+// .any()
+// .all()
+// .rev()
+// .find()  : I'll try to get it for you
+// .position()  : I'll try to find the position for you
+// .cycle()
+// .take()
 
 fn main() {
-    let some_output = Some(vec![8, 9, 10]);
-    // let some_value: Option<Vec<i32>> = None;
+    let even_odd = vec!["even", "odd"];
 
-    let first = some_output
-        .clone()
-        .map(|some_vec| {
-            some_vec.iter().map(|num| num + 1).collect::<Vec<_>>()
-        });
-    println!("{first:?}");
+    let even_odd_vec = (0..6)
+        .zip(even_odd.into_iter().cycle())
+        .collect::<Vec<(i32, &str)>>();
 
-    let second = some_output
-        .clone()
-        .map(|some_vec| match some_vec.len() {
-            0 => None,
-            1 => Some(vec![some_vec[0]]),
-            _ => Some(some_vec)
-        });
-    println!("{second:?}");
-
-    let third = some_output
-        .and_then(|some_vec| match some_vec.len() {
-            0 => None,
-            1 => Some(vec![some_vec[0]]),
-            _ => Some(some_vec)
-        });
-    println!("{third:?}");
-
+    println!("{even_odd_vec:?}");
 }
