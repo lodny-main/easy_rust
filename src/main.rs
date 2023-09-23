@@ -1,14 +1,33 @@
-// ok() : Result to Option
-// ok_or() : Option to Result
-// ok_or_else() : Option to Result with closure
+// and_then()   :: flat_map()
+
+use std::arch::x86_64::__cpuid;
 
 fn main() {
-    let user_input = vec!["8.9", "Nine point nine five", "8.0", "7.6", "eleventh-twelve"];
+    let some_output = Some(vec![8, 9, 10]);
+    // let some_value: Option<Vec<i32>> = None;
 
-    let actual_numbers = user_input
-        .into_iter()
-        .filter_map(|input| input.parse().ok())
-        .collect::<Vec<f32>>();
+    let first = some_output
+        .clone()
+        .map(|some_vec| {
+            some_vec.iter().map(|num| num + 1).collect::<Vec<_>>()
+        });
+    println!("{first:?}");
 
-    println!("{:?}", actual_numbers);
+    let second = some_output
+        .clone()
+        .map(|some_vec| match some_vec.len() {
+            0 => None,
+            1 => Some(vec![some_vec[0]]),
+            _ => Some(some_vec)
+        });
+    println!("{second:?}");
+
+    let third = some_output
+        .and_then(|some_vec| match some_vec.len() {
+            0 => None,
+            1 => Some(vec![some_vec[0]]),
+            _ => Some(some_vec)
+        });
+    println!("{third:?}");
+
 }
