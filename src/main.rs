@@ -1,22 +1,19 @@
-// .skip()
-// .take()
-// .fold() : javascript : reduce()
-// .sum()
+// take_while()
+// cloned()
+// by_ref()
+// skip_while()
+// map_while()
+// chunks()
+// windows()
 
 fn main() {
-    let ten_chars = ('a'..)
-        .skip(10)
-        .take(10)
-        .collect::<Vec<_>>();
-    println!("{ten_chars:?}");
+    let num_vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-    let a_string = "I don't have any dashes in me.";
-    let dashed = a_string
-        .chars()
-        .fold("-".to_string(), |mut string_to_far, next_char| {
-            string_to_far.push(next_char);
-            string_to_far.push('-');
-            string_to_far
-        });
-    println!("{dashed:?}");
+    for chunk in num_vec.chunks(3) {
+        println!("{chunk:?}");
+    }
+
+    for window in num_vec.windows(3) {
+        println!("{window:?}");
+    }
 }
