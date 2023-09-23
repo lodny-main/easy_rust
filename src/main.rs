@@ -1,14 +1,26 @@
-// chaining methods and functional style
+// Iterator : a collection of things that you can call .next() on
+// .iter() : iterator of references &T
+// .iter_mut() : iterator of mutable references &mut T
+// .into_iter() : consuming iterator
 
 fn main() {
-    let my_vec = (1..=10).collect::<Vec<_>>();
-    println!("my_vec: {:?}", my_vec);
-
-    let new_vec = my_vec
-        .into_iter()
-        .skip(3)
-        .take(5)
+    let vec1 = vec![1, 2, 3];
+    let vec1_a = vec1
+        .iter()
+        .map(|x| x + 1)
         .collect::<Vec<i32>>();
-    println!("new_vec: {:?}", new_vec);
-    // println!("my_vec: {:?}", my_vec);        // after move
+    let vec1_b: Vec<i32> = vec1
+        .into_iter()
+        .map(|x| x * 10)
+        .collect();
+
+    let mut vec2 = vec![10, 20, 30];
+    vec2
+        .iter_mut()
+        .for_each(|num| *num += 100);
+
+    println!("vec1_a: {:?}", vec1_a);
+    println!("vec1_b: {:?}", vec1_b);
+    println!("vec2: {:?}", vec2);
+    // println!("vec1: {:?}", vec1);    // error happened : after moved
 }
