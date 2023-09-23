@@ -1,25 +1,16 @@
-use std::collections::HashMap;
+use std::collections::BinaryHeap;
 
 fn main() {
-    let data = vec![
-        ("male", 9),
-        ("female", 5),
-        ("male", 0),
-        ("female", 6),
-        ("female", 5),
-        ("male", 10),
-    ];
+    let many_numbers = vec![0, 5, 10, 15, 20, 25, 30];
 
-    let mut survey_hash = HashMap::new();
+    let mut my_heap = BinaryHeap::new();
 
-    for (gender, number) in data {
-        survey_hash
-            .entry(gender)
-            .or_insert(Vec::new())
-            .push(number);
+    for number in many_numbers {
+        my_heap.push(number);
     }
 
-    for (gender, numbers) in survey_hash {
-        println!("{:?}, {:?}", gender, numbers);
+    // .peek()
+    while let Some(number) = my_heap.pop() {
+        println!("Popped off {}. Remaining numbers are: {:?}", number, my_heap);
     }
 }
