@@ -1,19 +1,17 @@
-use std::fmt::Display;
 
-fn compare_and_display<T, U>(statement: T, num_1: U, num_2: U)
-    where
-        T: Display,
-        U: Display + PartialOrd
-{
-    println!("{}! Is {} greater than {}? {}",
-             statement,
-             num_1,
-             num_2,
-             num_1 > num_2
-    );
-}
 
 fn main() {
-    compare_and_display("Listen up!", 9, 8);
+    let vec = vec![1, 2, 1, 2, 1, 2];
+    match take_fifth(vec) {
+        None => println!("There was nothing inside."),
+        Some(number) => println!("I got a number: {number}")
+    }
 }
 
+fn take_fifth(value: Vec<i32>) -> Option<i32> {
+    if value.len() < 5 {
+        None
+    } else {
+        Some(value[4])
+    }
+}
