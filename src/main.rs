@@ -1,44 +1,15 @@
-enum LibraryType {
-    City,
-    Country,
-}
-
-struct Library {
-    library_type: LibraryType,
-    books: Vec<String>,
-}
-
-impl Library {
-    fn new() -> Self {
-        Self {
-            library_type: LibraryType::City,
-            books: Vec::new(),
-        }
-    }
-
-    fn add_book(&mut self, book: &str) {
-        self.books.push(book.to_string());
-    }
-}
-
-impl Iterator for Library {
-    type Item = String;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.books.pop()
-    }
-}
+// match_indices()      : indices = indexes
+// peekable()
+// peek()
+// next()
 
 fn main() {
-    let mut my_library = Library::new();
-    my_library.add_book("The Doom");
-    my_library.add_book("Demian");
-    my_library.add_book("구운몽");
-    my_library.add_book("데이터베이스");
+    let rules = "Rule number 1: No fighting.
+Rule number 2: Go to bed at 8 pm.
+Rule number 3: Wake up at 6 am.";
 
-    println!("{:?}", my_library.books);
-
-    for book in my_library {
-        println!("{}", book);
-    }
+    let rule_locations = rules
+        .match_indices("Rule")
+        .collect::<Vec<(_,_)>>();
+    println!("Rule locations: {rule_locations:?}");
 }
