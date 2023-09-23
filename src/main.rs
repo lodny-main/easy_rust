@@ -1,15 +1,20 @@
-// match_indices()      : indices = indexes
-// peekable()
-// peek()
-// next()
+// dbg!()
+// inspect()
 
 fn main() {
-    let rules = "Rule number 1: No fighting.
-Rule number 2: Go to bed at 8 pm.
-Rule number 3: Wake up at 6 am.";
+    let new_vec = [8, 9, 10];
 
-    let rule_locations = rules
-        .match_indices("Rule")
-        .collect::<Vec<(_,_)>>();
-    println!("Rule locations: {rule_locations:?}");
+    let double_vec = new_vec
+        .iter()
+        .inspect(|&first_item| {
+            dbg!(first_item);
+        })
+        .map(|x| x * 2)
+        .inspect(|&first_item| {
+            dbg!(first_item);
+        })
+        .filter(|&num| num > 17)
+        .collect::<Vec<_>>();
+
+    dbg!(double_vec);
 }
