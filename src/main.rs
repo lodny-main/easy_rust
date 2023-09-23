@@ -1,43 +1,29 @@
-// Debug again
+// interior mutability
+// changing on the inside
 
-use std::fmt::{Debug, Formatter};
-use crate::client::InternetClient;
+// &    : immutable reference / shared reference
+// &mut : mutable reference / unique reference
 
-// External code
-mod client {
-    pub struct InternetClient {
-        pub(crate) client_id: u32,
-    }
-}
-// use client::InternetClient;
+// Cell : not mutable but changeable
+// impl<T: ?Sized> !Sync for Cell<T> {} ->> !Sync
+// RefCell
+// Mutex
+// RwLock
 
-// #[derive(Debug)]     // can't using because external code ->> impl Debug
-struct Customer<'a> {
-    money: u32,
-    name: &'a str,
-    client: &'a InternetClient,
-}
+use std::cell::Cell;
 
-impl<'a> Debug for Customer<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Customer")
-            .field("money", &self.money)
-            .field("name", &self.name)
-            .field("client", &"Client")
-            .finish()
-    }
+
+#[derive(Debug)]
+struct TestCell {
+    num: Cell<i32>,
 }
 
 fn main() {
-    let client = InternetClient {
-        client_id: 0
+    let cell = TestCell {
+        num: Cell::new(10),
     };
+    println!("{cell:?}");
 
-    let customer = Customer {
-        money: 6724,
-        name: "Coco",
-        client: &client,
-    };
-
-    println!("{customer:?}");
+    cell.num.set(20);
+    println!("{cell:?}");
 }
