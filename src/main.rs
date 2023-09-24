@@ -1,43 +1,12 @@
-// Debug again
-
-use std::fmt::{Debug, Formatter};
-use crate::client::InternetClient;
-
-// External code
-mod client {
-    pub struct InternetClient {
-        pub(crate) client_id: u32,
-    }
-}
-// use client::InternetClient;
-
-// #[derive(Debug)]     // can't using because external code ->> impl Debug
-struct Customer<'a> {
-    money: u32,
-    name: &'a str,
-    client: &'a InternetClient,
-}
-
-impl<'a> Debug for Customer<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Customer")
-            .field("money", &self.money)
-            .field("name", &self.name)
-            .field("client", &"Client")
-            .finish()
-    }
-}
+use std::cell::RefCell;
 
 fn main() {
-    let client = InternetClient {
-        client_id: 0
-    };
-
-    let customer = Customer {
-        money: 6724,
-        name: "Coco",
-        client: &client,
-    };
-
-    println!("{customer:?}");
+    let my_cell = RefCell::new(String::from("I am a String"));
+    println!("{my_cell:?}");
+    // *my_cell.borrow_mut() = String::from("I am not a String");
+    match my_cell.try_borrow_mut() {
+        Ok(mut r) => *r = String::from("I am not a String"),
+        Err(e) => println!("We got an error: {e}")
+    }
+    println!("{my_cell:?}");
 }
