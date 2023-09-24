@@ -1,31 +1,13 @@
-use std::rc::Rc;
-
-#[derive(Debug)]
-struct City {
-    name: String,
-    population: i32,
-    history: Rc<String>
-}
-
-#[derive(Debug)]
-struct CityData {
-    names: Vec<String>,
-    histories: Vec<Rc<String>>
-}
+use std::rc::{Rc, Weak};
 
 fn main() {
-    let calgary = City {
-        name: String::from("Calgary"),
-        population: 133_6000,
-        history: Rc::new(String::from("Calgary was founded in blah blah blah"))
-    };
+    let rc_data = Rc::new(43);
+    println!("{}", Rc::strong_count(&rc_data));
 
-    let canada_cities = CityData {
-        names: vec![calgary.name],
-        histories: vec![Rc::clone(&calgary.history)]
-    };
+    let weak_data = Rc::downgrade(&rc_data);
+    println!("{}", Rc::strong_count(&rc_data));
+    println!("{:?}", Weak::upgrade(&weak_data));
 
-    println!("{canada_cities:?}");
-    println!("Calgary's history is: {}", calgary.history);
-    println!("Data has {} owners", Rc::strong_count(&calgary.history));
+    drop(rc_data);
+    println!("{:?}", Weak::upgrade(&weak_data));
 }
