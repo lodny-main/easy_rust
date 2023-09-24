@@ -1,20 +1,18 @@
-// impl trait
-// return closure
+use std::fmt::Display;
 
-fn return_a_closure() -> Box<dyn Fn(i32)> {
-    Box::new(|x| println!("{x}"))
+fn generic_function<T: Display>(input: T) {
+    println!("{input}");
 }
 
-fn return_a_closure_new() -> impl Fn(i32) {
-    |x| println!("{x}")
+fn impl_function(input: impl Display) {
+    println!("{input}");
 }
 
 fn main() {
-    let my_number = 9;
+    generic_function(8);
+    generic_function::<u8>(8);
 
-    let closure = return_a_closure();
-    closure(my_number);
-
-    let closure_new = return_a_closure_new();
-    closure_new(my_number);
+    impl_function(9);
+    // impl_function::<u8>(9);
+    // function takes 0 generic arguments but 1 generic argument was supplied
 }
