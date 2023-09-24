@@ -1,18 +1,17 @@
 // Mutex and RwLock(Read Write)
 
-use std::sync::Mutex;
+use std::sync::RwLock;
 
 fn main() {
-    let my_mutex = Mutex::new(5);
+    let my_rwlock = RwLock::new(5);
+    println!("{my_rwlock:?}");
 
-    let mut mutex_changer = my_mutex.lock().unwrap();
-    // let mut other_mutex_changer = my_mutex.lock().unwrap(); // ->> locked
-    let mut other_mutex_changer = my_mutex.try_lock();
-    if let Ok(value) = other_mutex_changer {
-        println!("The other_mutex_changer has : {value}");
-    } else {
-        println!("Didn't get a lock");
-    }
+    let read1 = my_rwlock.read().unwrap();      // lock
+    let read2 = my_rwlock.read().unwrap();      // lock
+    println!("{read1}, {read2}");
 
-    println!("{my_mutex:?}");
+    // like db ?
+    let read3 = my_rwlock.read().unwrap();      // lock
+    let write1 = my_rwlock.write().unwrap();      // lock
+    println!("{read3}, {write1}");
 }
