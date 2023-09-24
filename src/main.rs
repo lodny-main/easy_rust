@@ -1,13 +1,29 @@
-use std::rc::{Rc, Weak};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+
+#[derive(Debug)]
+struct DataContainer {
+    data: Rc<RefCell<String>>
+}
 
 fn main() {
-    let rc_data = Rc::new(43);
-    println!("{}", Rc::strong_count(&rc_data));
+    let important_data = Rc::new(RefCell::new(String::from("Super duper important data")));
 
-    let weak_data = Rc::downgrade(&rc_data);
-    println!("{}", Rc::strong_count(&rc_data));
-    println!("{:?}", Weak::upgrade(&weak_data));
+    let container_1 = DataContainer {
+        data: Rc::clone(&important_data),
+    };
 
-    drop(rc_data);
-    println!("{:?}", Weak::upgrade(&weak_data));
+    let container_2 = DataContainer {
+        data: Rc::clone(&important_data),
+    };
+
+    for _ in 0..10 {
+        container_1.data.borrow_mut().push('a');
+        container_2.data.borrow_mut().push('b');
+    }
+
+    println!("{container_1:?}");
+    println!("{container_2:?}");
+    println!("{important_data:?}");
 }
