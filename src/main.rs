@@ -1,14 +1,38 @@
+// Deref
+
+use std::ops::{Deref, DerefMut};
+
+struct HoldsANumber(u8);
+
+// smart pointer
+impl Deref for HoldsANumber {
+    type Target = u8;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for HoldsANumber {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+// DerefMut
+
 fn main() {
-    let string_1 = String::from("Hello there");  // From trait
-    let string_2 = "Hello there".to_string();       // Display trait
+    let value = 7;
+    let reference = &7;
 
-    // type annotations needed
-    // let string_3 = "Hello there".into();
-    // From
-    let string_3: String = "Hello there".into();
+    println!("{}", value == *reference);
 
-    // ToOwned trait : str -> String
-    let string_4 = "Hello there".to_owned();
+    let mut my_number = HoldsANumber(20);
+    // type `HoldsANumber` cannot be dereferenced
+    println!("{}", *my_number + 10);
+    // can use dot method
+    println!("{}", my_number.checked_add(10).unwrap() + 10);
 
-    // Clone : &T -> T, &str -> str
+    *my_number = 50;
+    println!("{}", *my_number);
 }
