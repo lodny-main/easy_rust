@@ -1,52 +1,20 @@
-// closure
-// Fn() -> u8      // reference        : &self
-// FnMut() -> u8   // can mutate       : &mut Self
-// FnOnce() -> u8  // can be used once : Self
+// impl trait
+// return closure
 
-fn fn_closure<F>(f: F)
-where
-    F: Fn(),
-{
-    f();
+fn return_a_closure() -> Box<dyn Fn(i32)> {
+    Box::new(|x| println!("{x}"))
 }
 
-fn fn_mut_closure<F>(mut f: F)
-where
-    F: FnMut(),
-{
-    f();
-}
-
-fn fn_once_closure<F>(f: F)
-where
-    F: FnOnce(),
-{
-    f();
+fn return_a_closure_new() -> impl Fn(i32) {
+    |x| println!("{x}")
 }
 
 fn main() {
-    let mut my_string = String::from("Hello there");
+    let my_number = 9;
 
-    // simple closure
-    let print_it = || {
-        println!("{my_string}");
-    };
-    print_it();
+    let closure = return_a_closure();
+    closure(my_number);
 
-    // closure parameter
-    fn_closure(|| {
-        println!("{my_string}");
-    });
-
-    fn_mut_closure(|| {
-        my_string.push_str(" mut");
-        println!("{my_string}");
-        // drop(my_string);    // cannot move out of `my_string`, a captured variable in an `FnMut` closure
-    });
-
-    fn_once_closure(|| {
-        my_string.push_str(" once");
-        println!("{my_string}");
-        drop(my_string)
-    });
+    let closure_new = return_a_closure_new();
+    closure_new(my_number);
 }
