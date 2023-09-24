@@ -1,22 +1,14 @@
-// #[deprecated...]
-// cargo test
-#[test]
-#[should_panic]
-fn tests_a_thing() {
-    assert_eq!(8, 9);
-}
-
-#[test]
-fn tests_another_thing() {
-
-}
-
-#[repr(C)]      // C언어와 같게 처리해준다.
-struct SomeRustStruct {
-    one: u8,
-    two: u16
-}
-
 fn main() {
+    let string_1 = String::from("Hello there");  // From trait
+    let string_2 = "Hello there".to_string();       // Display trait
 
+    // type annotations needed
+    // let string_3 = "Hello there".into();
+    // From
+    let string_3: String = "Hello there".into();
+
+    // ToOwned trait : str -> String
+    let string_4 = "Hello there".to_owned();
+
+    // Clone : &T -> T, &str -> str
 }
