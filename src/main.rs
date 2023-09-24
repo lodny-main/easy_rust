@@ -1,19 +1,15 @@
-// recursive types
+trait Booky {}
 
-#[derive(Debug)]
-struct List {
-    // content: List,      // --> error: recursive type `List` has infinite size
-    content: Box<List>,
-}
+struct Book;
+impl Booky for Book {}
 
-#[derive(Debug)]
-enum ListEnum {
-    Content(i32, Box<ListEnum>),
-    NoContent,
-}
+struct BigBook;
+impl Booky for BigBook {}
 
 fn main() {
-    let list_enum = ListEnum::Content(213, Box::new(ListEnum::NoContent));
+    // let vec_of_booky_things: Vec<Booky> = vec![Book, BigBook];
+    // --> the size for values of type `dyn Booky` cannot be known at compilation time
 
-    println!("{list_enum:?}");
+    // dyn : dynamically
+    let vec_of_booky_things: Vec<Box<dyn Booky>> = vec![Box::new(Book), Box::new(BigBook)];
 }
