@@ -1,18 +1,22 @@
-use std::fmt::Display;
-
-fn generic_function<T: Display>(input: T) {
-    println!("{input}");
+// #[deprecated...]
+// cargo test
+#[test]
+#[should_panic]
+fn tests_a_thing() {
+    assert_eq!(8, 9);
 }
 
-fn impl_function(input: impl Display) {
-    println!("{input}");
+#[test]
+fn tests_another_thing() {
+
+}
+
+#[repr(C)]      // C언어와 같게 처리해준다.
+struct SomeRustStruct {
+    one: u8,
+    two: u16
 }
 
 fn main() {
-    generic_function(8);
-    generic_function::<u8>(8);
 
-    impl_function(9);
-    // impl_function::<u8>(9);
-    // function takes 0 generic arguments but 1 generic argument was supplied
 }
