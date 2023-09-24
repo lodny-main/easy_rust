@@ -1,18 +1,32 @@
-use std::fmt::Display;
+// attribute
+// #![] : 전체 다 해당
+// #[]  : 바로 아래만 해당
+// Hints to the compiler
+// annotation
+// proc macro
+// warn <-> allow
 
-fn generic_function<T: Display>(input: T) {
-    println!("{input}");
+// #[warn(unused_variables)]    // default
+// #[warn(dead_code)]           // default
+
+#![allow(unused_variables)]
+#![allow(dead_code)]
+
+// #[cfg()]    // config,
+// #[cfg(not(target_os = "linux"))]
+#[cfg(target_os = "linux")]
+fn do_something() {
+    println!("I am running in Linux");
 }
 
-fn impl_function(input: impl Display) {
-    println!("{input}");
+#[cfg(target_os = "windows")]
+fn do_something() {
+    println!("I am running in Windows");
 }
+
+struct JustAsStruct {}
 
 fn main() {
-    generic_function(8);
-    generic_function::<u8>(8);
-
-    impl_function(9);
-    // impl_function::<u8>(9);
-    // function takes 0 generic arguments but 1 generic argument was supplied
+    let some_char = 'a';
+    do_something();
 }
