@@ -1,12 +1,29 @@
 use std::cell::RefCell;
+use std::rc::Rc;
+
+
+#[derive(Debug)]
+struct DataContainer {
+    data: Rc<RefCell<String>>
+}
 
 fn main() {
-    let my_cell = RefCell::new(String::from("I am a String"));
-    println!("{my_cell:?}");
-    // *my_cell.borrow_mut() = String::from("I am not a String");
-    match my_cell.try_borrow_mut() {
-        Ok(mut r) => *r = String::from("I am not a String"),
-        Err(e) => println!("We got an error: {e}")
+    let important_data = Rc::new(RefCell::new(String::from("Super duper important data")));
+
+    let container_1 = DataContainer {
+        data: Rc::clone(&important_data),
+    };
+
+    let container_2 = DataContainer {
+        data: Rc::clone(&important_data),
+    };
+
+    for _ in 0..10 {
+        container_1.data.borrow_mut().push('a');
+        container_2.data.borrow_mut().push('b');
     }
-    println!("{my_cell:?}");
+
+    println!("{container_1:?}");
+    println!("{container_2:?}");
+    println!("{important_data:?}");
 }
