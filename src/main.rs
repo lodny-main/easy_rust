@@ -1,33 +1,21 @@
-// 3 generics
-
-use std::fmt::Display;
-
-// concrete : generate using type functions at compile time."
-// compile : slow
-// run : fast
-fn print_1<T: Display>(input: T) {
-    println!("Hi, I'm a {input}");
+fn gives_five() -> u8 {
+    5
 }
 
-// concrete
-fn print_2(input: impl Display) {
-    println!("Hi, I'm a {input}");
+fn gives_six() -> u8 {
+    6
 }
 
-// dynamic : a little slow
-fn print_3(input: &dyn Display){
-    println!("Hi, I'm a {input}");
-}
+fn add_to_function_output(my_func: fn() -> u8, some_number: u8) {
+    let my_number = my_func();
+    let next_number = my_number + some_number;
 
-// dynamic
-fn print_4(input: Box<dyn Display>){
-    println!("Hi, I'm a {input}");
+    println!("We got {next_number}");
 }
-
 
 fn main() {
-    print_1(9);
-    print_2(5);
-    print_3(&2);
-    print_4(Box::new(7));
+    add_to_function_output(gives_five, 100);
+    add_to_function_output(gives_six, 100);
 }
+
+
