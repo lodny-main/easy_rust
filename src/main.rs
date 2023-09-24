@@ -1,15 +1,33 @@
-trait Booky {}
+// 3 generics
 
-struct Book;
-impl Booky for Book {}
+use std::fmt::Display;
 
-struct BigBook;
-impl Booky for BigBook {}
+// concrete : generate using type functions at compile time."
+// compile : slow
+// run : fast
+fn print_1<T: Display>(input: T) {
+    println!("Hi, I'm a {input}");
+}
+
+// concrete
+fn print_2(input: impl Display) {
+    println!("Hi, I'm a {input}");
+}
+
+// dynamic : a little slow
+fn print_3(input: &dyn Display){
+    println!("Hi, I'm a {input}");
+}
+
+// dynamic
+fn print_4(input: Box<dyn Display>){
+    println!("Hi, I'm a {input}");
+}
+
 
 fn main() {
-    // let vec_of_booky_things: Vec<Booky> = vec![Book, BigBook];
-    // --> the size for values of type `dyn Booky` cannot be known at compilation time
-
-    // dyn : dynamically
-    let vec_of_booky_things: Vec<Box<dyn Booky>> = vec![Box::new(Book), Box::new(BigBook)];
+    print_1(9);
+    print_2(5);
+    print_3(&2);
+    print_4(Box::new(7));
 }
