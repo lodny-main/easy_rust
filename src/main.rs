@@ -1,33 +1,31 @@
-use std::cell::Cell;
+use std::rc::Rc;
 
-// assume as external trait
-trait SuperCoolTrait{
-    fn cool_function(&self);
+#[derive(Debug)]
+struct City {
+    name: String,
+    population: i32,
+    history: Rc<String>
 }
 
 #[derive(Debug)]
-struct User {
-    id: u32,
-    // times_used: u32,
-    times_used: Cell<u32>,
-}
-
-impl SuperCoolTrait for User {
-    fn cool_function(&self) {
-        println!("Now using cool_function");
-        let times_used = self.times_used.get();
-        self.times_used.set(times_used + 1);
-    }
+struct CityData {
+    names: Vec<String>,
+    histories: Vec<Rc<String>>
 }
 
 fn main() {
-    let user = User {
-        id: 8793412,
-        times_used: Cell::new(0),
+    let calgary = City {
+        name: String::from("Calgary"),
+        population: 133_6000,
+        history: Rc::new(String::from("Calgary was founded in blah blah blah"))
     };
 
-    for _ in 0..10 {
-        user.cool_function();
-    }
-    println!("{user:?}");
+    let canada_cities = CityData {
+        names: vec![calgary.name],
+        histories: vec![Rc::clone(&calgary.history)]
+    };
+
+    println!("{canada_cities:?}");
+    println!("Calgary's history is: {}", calgary.history);
+    println!("Data has {} owners", Rc::strong_count(&calgary.history));
 }
