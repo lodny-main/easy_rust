@@ -1,17 +1,18 @@
-// Mutex and RwLock(Read Write)
+use std::fmt::Display;
 
-use std::sync::RwLock;
+fn generic_function<T: Display>(input: T) {
+    println!("{input}");
+}
+
+fn impl_function(input: impl Display) {
+    println!("{input}");
+}
 
 fn main() {
-    let my_rwlock = RwLock::new(5);
-    println!("{my_rwlock:?}");
+    generic_function(8);
+    generic_function::<u8>(8);
 
-    let read1 = my_rwlock.read().unwrap();      // lock
-    let read2 = my_rwlock.read().unwrap();      // lock
-    println!("{read1}, {read2}");
-
-    // like db ?
-    let read3 = my_rwlock.read().unwrap();      // lock
-    let write1 = my_rwlock.write().unwrap();      // lock
-    println!("{read3}, {write1}");
+    impl_function(9);
+    // impl_function::<u8>(9);
+    // function takes 0 generic arguments but 1 generic argument was supplied
 }
