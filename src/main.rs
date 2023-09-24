@@ -1,22 +1,38 @@
-// #[deprecated...]
-// cargo test
-#[test]
-#[should_panic]
-fn tests_a_thing() {
-    assert_eq!(8, 9);
+// Deref
+
+use std::ops::{Deref, DerefMut};
+
+struct HoldsANumber(u8);
+
+// smart pointer
+impl Deref for HoldsANumber {
+    type Target = u8;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
 
-#[test]
-fn tests_another_thing() {
-
+impl DerefMut for HoldsANumber {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
 }
 
-#[repr(C)]      // C언어와 같게 처리해준다.
-struct SomeRustStruct {
-    one: u8,
-    two: u16
-}
+// DerefMut
 
 fn main() {
+    let value = 7;
+    let reference = &7;
 
+    println!("{}", value == *reference);
+
+    let mut my_number = HoldsANumber(20);
+    // type `HoldsANumber` cannot be dereferenced
+    println!("{}", *my_number + 10);
+    // can use dot method
+    println!("{}", my_number.checked_add(10).unwrap() + 10);
+
+    *my_number = 50;
+    println!("{}", *my_number);
 }
