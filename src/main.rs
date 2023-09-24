@@ -1,29 +1,20 @@
-use std::cell::RefCell;
-use std::rc::Rc;
+// todo!() macro
+// alias = different name
 
+use std::iter::{Skip, Take};
+use std::vec::IntoIter;
 
-#[derive(Debug)]
-struct DataContainer {
-    data: Rc<RefCell<String>>
+type SkipAndTake = Take<Skip<IntoIter<char>>>;
+struct  MyOtherString(String);
+
+fn skip_five_take_five(input: Vec<char>) -> SkipAndTake {
+    input
+        .into_iter()
+        .skip(5)
+        .take(5)
 }
 
 fn main() {
-    let important_data = Rc::new(RefCell::new(String::from("Super duper important data")));
 
-    let container_1 = DataContainer {
-        data: Rc::clone(&important_data),
-    };
-
-    let container_2 = DataContainer {
-        data: Rc::clone(&important_data),
-    };
-
-    for _ in 0..10 {
-        container_1.data.borrow_mut().push('a');
-        container_2.data.borrow_mut().push('b');
-    }
-
-    println!("{container_1:?}");
-    println!("{container_2:?}");
-    println!("{important_data:?}");
 }
+
