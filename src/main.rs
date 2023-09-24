@@ -1,32 +1,22 @@
-// attribute
-// #![] : 전체 다 해당
-// #[]  : 바로 아래만 해당
-// Hints to the compiler
-// annotation
-// proc macro
-// warn <-> allow
-
-// #[warn(unused_variables)]    // default
-// #[warn(dead_code)]           // default
-
-#![allow(unused_variables)]
-#![allow(dead_code)]
-
-// #[cfg()]    // config,
-// #[cfg(not(target_os = "linux"))]
-#[cfg(target_os = "linux")]
-fn do_something() {
-    println!("I am running in Linux");
+// #[deprecated...]
+// cargo test
+#[test]
+#[should_panic]
+fn tests_a_thing() {
+    assert_eq!(8, 9);
 }
 
-#[cfg(target_os = "windows")]
-fn do_something() {
-    println!("I am running in Windows");
+#[test]
+fn tests_another_thing() {
+
 }
 
-struct JustAsStruct {}
+#[repr(C)]      // C언어와 같게 처리해준다.
+struct SomeRustStruct {
+    one: u8,
+    two: u16
+}
 
 fn main() {
-    let some_char = 'a';
-    do_something();
+
 }
