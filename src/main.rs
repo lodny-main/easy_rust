@@ -1,21 +1,52 @@
-fn gives_five() -> u8 {
-    5
+// closure
+// Fn() -> u8      // reference        : &self
+// FnMut() -> u8   // can mutate       : &mut Self
+// FnOnce() -> u8  // can be used once : Self
+
+fn fn_closure<F>(f: F)
+where
+    F: Fn(),
+{
+    f();
 }
 
-fn gives_six() -> u8 {
-    6
+fn fn_mut_closure<F>(mut f: F)
+where
+    F: FnMut(),
+{
+    f();
 }
 
-fn add_to_function_output(my_func: fn() -> u8, some_number: u8) {
-    let my_number = my_func();
-    let next_number = my_number + some_number;
-
-    println!("We got {next_number}");
+fn fn_once_closure<F>(f: F)
+where
+    F: FnOnce(),
+{
+    f();
 }
 
 fn main() {
-    add_to_function_output(gives_five, 100);
-    add_to_function_output(gives_six, 100);
+    let mut my_string = String::from("Hello there");
+
+    // simple closure
+    let print_it = || {
+        println!("{my_string}");
+    };
+    print_it();
+
+    // closure parameter
+    fn_closure(|| {
+        println!("{my_string}");
+    });
+
+    fn_mut_closure(|| {
+        my_string.push_str(" mut");
+        println!("{my_string}");
+        // drop(my_string);    // cannot move out of `my_string`, a captured variable in an `FnMut` closure
+    });
+
+    fn_once_closure(|| {
+        my_string.push_str(" once");
+        println!("{my_string}");
+        drop(my_string)
+    });
 }
-
-
