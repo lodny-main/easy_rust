@@ -1,3 +1,10 @@
+#![allow(dead_code)]
+#![warn(
+    clippy::pedantic,
+    // clippy::nursery,
+    // clippy::cargo,
+)]
+
 const OKAY_CHARACTERS: &str = "1324567890+- ";
 
 fn math(input: &str) -> i32 {
