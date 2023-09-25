@@ -1,38 +1,37 @@
-// Deref
+use std::borrow::Cow;
 
-use std::ops::{Deref, DerefMut};
-
-struct HoldsANumber(u8);
-
-// smart pointer
-impl Deref for HoldsANumber {
-    type Target = u8;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
+struct User {
+    name: String,
 }
 
-impl DerefMut for HoldsANumber {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
+#[derive(Debug)]
+struct User2<'a> {
+    name: Cow<'a, str>,
 }
 
-// DerefMut
+impl User {
+    fn new(input: &str) -> Self {
+        Self {
+            name: input.to_string(),
+        }
+    }
+}
 
 fn main() {
-    let value = 7;
-    let reference = &7;
+    let name_1 = "User 1";
+    let name_2 = "User 2".to_string();
 
-    println!("{}", value == *reference);
+    let my_user_1 = User::new(name_1);
+    let my_user_2 = User::new(&name_2);
 
-    let mut my_number = HoldsANumber(20);
-    // type `HoldsANumber` cannot be dereferenced
-    println!("{}", *my_number + 10);
-    // can use dot method
-    println!("{}", my_number.checked_add(10).unwrap() + 10);
+    let user_1 = User2 {
+        name: name_1.into(),
+    };
 
-    *my_number = 50;
-    println!("{}", *my_number);
+    let user_2 = User2 {
+        name: name_2.into(),
+    };
+
+    println!("User 1 is {user_1:?} and User 2 is {user_2:?}");
 }
+
