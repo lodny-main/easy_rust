@@ -16,7 +16,7 @@ impl<'a> User<'a> {
 
 
 fn main() {
-    let user_1 = User {
+    let mut user_1 = User {
         name: "User 1".into(),
     };
 
@@ -25,6 +25,7 @@ fn main() {
     };
 
     user_1.is_borrowed();
-    user_2.is_borrowed();
+    user_1.name.to_mut().push_str("~~~");
+    user_1.is_borrowed();
 }
 
