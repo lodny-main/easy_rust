@@ -1,88 +1,55 @@
-// Default and the builder pattern
-// naive implementation
+#![allow(dead_code)]
+#![warn(
+    clippy::pedantic,
+    // clippy::nursery,
+    // clippy::cargo,
+)]
 
-#[derive(Debug)]
-enum LifeState {
-    Alive,
-    Dead,
-    NeverAlive,
-    Uncertain,
+const OKAY_CHARACTERS: &str = "1324567890+- ";
+
+fn math(input: &str) -> i32 {
+    if !input.chars().all(|character| OKAY_CHARACTERS.contains(character)) {
+        panic!("Please only input numbers, +-, or spaces");
+    }
+
+    // let input = input.replace(" ", "");
+    let input = input
+        .replace(" ", "")
+        .trim_end_matches(|x| "+-".contains(x))
+        .chars()
+        // .filter(|x| *x != ' ')
+        .collect::<String>();
+    println!("{input:?}");
+    9
 }
 
-struct CharacterBuilder {
-    name: String,
-    age: u8,
-    height: u32,
-    weight: u32,
-    lifestate: LifeState,
-}
+// replace : remove blank
+// remove after last number
 
-#[derive(Debug)]
-struct Character {
-    name: String,
-    age: u8,
-    height: u32,
-    weight: u32,
-    lifestate: LifeState,
-}
 
-impl CharacterBuilder {
-    fn with_age(mut self, age: u8) -> Self {
-        self.age = age;
-        self
+// Test-Driven development
+#[cfg(test)]
+mod tests {
+    use super::*;   // can use outside of mod tests
+
+    #[test]
+    fn one_plus_one_is_two() {
+        assert_eq!(math("1 + 1 +-++-   "), 2);
     }
 
-    fn with_height(mut self, height: u32) -> Self {
-        self.height = height;
-        self
+    #[test]
+    fn one_minus_minus_one_is_two() {
+        assert_eq!(math("1 - -1"), 2);
     }
 
-    fn with_weight(mut self, weight: u32) -> Self {
-        self.weight = weight;
-        self
+    #[test]
+    #[should_panic]
+    fn panics_when_characters_not_right() {
+        math("7 + please add seven");
     }
 
-    fn with_name(mut self, name: &str) -> Self {
-        self.name = name.to_string();
-        self
-    }
-
-    fn build(mut self) -> Result<Character, String> {
-        if self.height < 200 &&
-            self.weight < 300 &&
-            !self.name.to_lowercase().contains("smurf") {
-            Ok(Character {
-                name: self.name,
-                age: self.age,
-                height: self.height,
-                weight: self.weight,
-                lifestate: self.lifestate,
-            })
-        } else {
-            Err("Names must not contain smurf, weight must be ...".to_string())
-        }
-    }
-}
-
-impl Default for CharacterBuilder {
-    fn default() -> Self {
-        Self {
-            name: "Billy".to_string(),
-            age: 15,
-            height: 170,
-            weight: 70,
-            lifestate: LifeState::Alive,
-        }
-    }
 }
 
 fn main() {
-    let npc_1 = CharacterBuilder::default()
-        .with_age(20)
-        .with_height(194)
-        .with_weight(82)
-        // .with_name("Hei I am Smurf")
-        .with_name("Billybrobby")
-        .build();
-    println!("{npc_1:?}");
+
 }
