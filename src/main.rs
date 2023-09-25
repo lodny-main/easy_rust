@@ -27,6 +27,31 @@ impl Character {
             lifestate: if alive { LifeState::Alive } else { LifeState::Dead },
         }
     }
+
+    fn with_age(mut self, age: u8) -> Self {
+        self.age = age;
+        self
+    }
+
+    fn with_height(mut self, height: u32) -> Self {
+        self.height = height;
+        self
+    }
+
+    fn with_weight(mut self, weight: u32) -> Self {
+        self.weight = weight;
+        self
+    }
+
+    fn build() -> Self {
+        Self {
+            name: "".to_string(),
+            age: 0,
+            height: 0,
+            weight: 0,
+            lifestate: LifeState::Alive,
+        }
+    }
 }
 
 impl Default for Character {
@@ -47,4 +72,10 @@ fn main() {
 
     let npc_2 = Character::default();
     println!("{npc_2:?}");
+
+    let npc_3 = Character::default()
+        .with_age(20)
+        .with_height(194)
+        .with_weight(82);
+    println!("{npc_3:?}");
 }
