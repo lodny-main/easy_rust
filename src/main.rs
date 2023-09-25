@@ -1,38 +1,45 @@
-// Deref
+// Cow = Clone on Write
 
-use std::ops::{Deref, DerefMut};
+// + Add
+// - Sub
+// += AddAssign
 
-struct HoldsANumber(u8);
+use std::ops::Add;
 
-// smart pointer
-impl Deref for HoldsANumber {
-    type Target = u8;
 
-    fn deref(&self) -> &Self::Target {
-        &self.0
+#[derive(Debug)]
+struct Country {
+    name: String,
+    population: u32,
+    gdp: u32,
+}
+
+impl Add for Country {
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        Self {
+            name: format!("{} and {}", self.name, other.name),
+            population: self.population + other.population,
+            gdp: self.gdp + other.gdp,
+        }
     }
 }
 
-impl DerefMut for HoldsANumber {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+impl Country {
+    fn new(name: &str, population: u32, gdp: u32) -> Self {
+        Self {
+            name: String::from(name),
+            population,
+            gdp,
+        }
     }
 }
-
-// DerefMut
 
 fn main() {
-    let value = 7;
-    let reference = &7;
+    let nauru = Country::new("Nauru", 1_0670, 1_6000_0000);
+    let vanuatu = Country::new("Vanuatu", 30_7815, 8_2000_0000);
+    let micronesia = Country::new("Micronesia", 10_4468, 3_6700_0000);
 
-    println!("{}", value == *reference);
-
-    let mut my_number = HoldsANumber(20);
-    // type `HoldsANumber` cannot be dereferenced
-    println!("{}", *my_number + 10);
-    // can use dot method
-    println!("{}", my_number.checked_add(10).unwrap() + 10);
-
-    *my_number = 50;
-    println!("{}", *my_number);
+    println!("Nauru + Vanuatu + Micronesia = {:?}", nauru + vanuatu + micronesia);
 }
