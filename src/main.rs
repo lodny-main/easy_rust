@@ -1,45 +1,88 @@
-// Cow = Clone on Write
-
-// + Add
-// - Sub
-// += AddAssign
-
-use std::ops::Add;
-
+// Default and the builder pattern
+// naive implementation
 
 #[derive(Debug)]
-struct Country {
-    name: String,
-    population: u32,
-    gdp: u32,
+enum LifeState {
+    Alive,
+    Dead,
+    NeverAlive,
+    Uncertain,
 }
 
-impl Add for Country {
-    type Output = Self;
+struct CharacterBuilder {
+    name: String,
+    age: u8,
+    height: u32,
+    weight: u32,
+    lifestate: LifeState,
+}
 
-    fn add(self, other: Self) -> Self {
-        Self {
-            name: format!("{} and {}", self.name, other.name),
-            population: self.population + other.population,
-            gdp: self.gdp + other.gdp,
+#[derive(Debug)]
+struct Character {
+    name: String,
+    age: u8,
+    height: u32,
+    weight: u32,
+    lifestate: LifeState,
+}
+
+impl CharacterBuilder {
+    fn with_age(mut self, age: u8) -> Self {
+        self.age = age;
+        self
+    }
+
+    fn with_height(mut self, height: u32) -> Self {
+        self.height = height;
+        self
+    }
+
+    fn with_weight(mut self, weight: u32) -> Self {
+        self.weight = weight;
+        self
+    }
+
+    fn with_name(mut self, name: &str) -> Self {
+        self.name = name.to_string();
+        self
+    }
+
+    fn build(mut self) -> Result<Character, String> {
+        if self.height < 200 &&
+            self.weight < 300 &&
+            !self.name.to_lowercase().contains("smurf") {
+            Ok(Character {
+                name: self.name,
+                age: self.age,
+                height: self.height,
+                weight: self.weight,
+                lifestate: self.lifestate,
+            })
+        } else {
+            Err("Names must not contain smurf, weight must be ...".to_string())
         }
     }
 }
 
-impl Country {
-    fn new(name: &str, population: u32, gdp: u32) -> Self {
+impl Default for CharacterBuilder {
+    fn default() -> Self {
         Self {
-            name: String::from(name),
-            population,
-            gdp,
+            name: "Billy".to_string(),
+            age: 15,
+            height: 170,
+            weight: 70,
+            lifestate: LifeState::Alive,
         }
     }
 }
 
 fn main() {
-    let nauru = Country::new("Nauru", 1_0670, 1_6000_0000);
-    let vanuatu = Country::new("Vanuatu", 30_7815, 8_2000_0000);
-    let micronesia = Country::new("Micronesia", 10_4468, 3_6700_0000);
-
-    println!("Nauru + Vanuatu + Micronesia = {:?}", nauru + vanuatu + micronesia);
+    let npc_1 = CharacterBuilder::default()
+        .with_age(20)
+        .with_height(194)
+        .with_weight(82)
+        // .with_name("Hei I am Smurf")
+        .with_name("Billybrobby")
+        .build();
+    println!("{npc_1:?}");
 }
