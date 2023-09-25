@@ -1,4 +1,5 @@
 // Default and the builder pattern
+// naive implementation
 
 #[derive(Debug)]
 enum LifeState {
@@ -15,6 +16,7 @@ struct Character {
     height: u32,
     weight: u32,
     lifestate: LifeState,
+    can_use: bool,  // flag
 }
 
 impl Character {
@@ -25,32 +27,50 @@ impl Character {
             height,
             weight,
             lifestate: if alive { LifeState::Alive } else { LifeState::Dead },
+            can_use: true,
         }
     }
 
     fn with_age(mut self, age: u8) -> Self {
         self.age = age;
+        self.can_use = false;
         self
     }
 
     fn with_height(mut self, height: u32) -> Self {
         self.height = height;
+        self.can_use = false;
         self
     }
 
     fn with_weight(mut self, weight: u32) -> Self {
         self.weight = weight;
+        self.can_use = false;
         self
     }
 
-    fn build() -> Self {
-        Self {
-            name: "".to_string(),
-            age: 0,
-            height: 0,
-            weight: 0,
-            lifestate: LifeState::Alive,
+    fn with_name(mut self, name: &str) -> Self {
+        self.name = name.to_string();
+        self.can_use = false;
+        self
+    }
+
+    fn build(mut self) -> Result<Character, String> {
+        if self.height < 200 &&
+            self.weight < 300 &&
+            !self.name.to_lowercase().contains("smurf") {
+            Ok(self)
+        } else {
+            Err("Names must not contain smurf, weight must be ...".to_string())
         }
+        // Self {
+        //     name: "".to_string(),
+        //     age: 0,
+        //     height: 0,
+        //     weight: 0,
+        //     lifestate: LifeState::Alive,
+        //     can_use: true,
+        // }
     }
 }
 
@@ -62,6 +82,7 @@ impl Default for Character {
             height: 170,
             weight: 70,
             lifestate: LifeState::Alive,
+            can_use: true,
         }
     }
 }
@@ -76,6 +97,9 @@ fn main() {
     let npc_3 = Character::default()
         .with_age(20)
         .with_height(194)
-        .with_weight(82);
+        .with_weight(82)
+        // .with_name("Hei I am Smurf")
+        .with_name("Billybrobby")
+        .build();
     println!("{npc_3:?}");
 }
