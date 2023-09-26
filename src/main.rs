@@ -1,17 +1,13 @@
-// panic
+// time
+// chrono
 
-use std::panic::{set_hook, take_hook};
+use std::thread::sleep;
+use std::time::{Duration, Instant};
 
 fn main() {
-    let mut important_code = 400;
+    let now = Instant::now();   // opaque
+    println!("{now:?}");
 
-    set_hook(Box::new(|panic_info| {
-        println!("Didn't get a 200 code yet");
-        println!("Panic info: {:?}", panic_info.payload().downcast_ref::<&str>());
-    }));
-
-    let my_number = "8876a".parse::<i32>().unwrap();
-    important_code = 200;
-    let _ = take_hook();
-    let other_number = "dsfa2133123".parse::<i32>().unwrap();
+    sleep(Duration::from_secs(3));
+    println!("now.elapsed: {:?}", now.elapsed());
 }
