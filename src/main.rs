@@ -2,12 +2,21 @@
 // mpsc : multiple producer - single consumer
 
 use std::sync::mpsc::channel;
+use std::thread;
 
 fn main() {
     let (tx, rx) = channel();
 
-    tx.send(9).unwrap();
-    let received = rx.recv().unwrap();
+    let s1 = tx.clone();
+    let s2 = tx.clone();
+    thread::spawn(move || {
+        s1.send(9).unwrap();
+    });
 
-    println!("received: {received}");
+    thread::spawn(move || {
+        s2.send(3).unwrap();
+    });
+
+    println!("received: {}", rx.recv().unwrap());
+    println!("received: {}", rx.recv().unwrap());
 }
