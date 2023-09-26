@@ -1,13 +1,13 @@
-// time
-// chrono
+// channel
+// mpsc : multiple producer - single consumer
 
-use std::thread::sleep;
-use std::time::{Duration, Instant};
+use std::sync::mpsc::channel;
 
 fn main() {
-    let now = Instant::now();   // opaque
-    println!("{now:?}");
+    let (tx, rx) = channel();
 
-    sleep(Duration::from_secs(3));
-    println!("now.elapsed: {:?}", now.elapsed());
+    tx.send(9).unwrap();
+    let received = rx.recv().unwrap();
+
+    println!("received: {received}");
 }
